@@ -1,19 +1,21 @@
 
 while True:
+
+#Starting input
     user_input = input("Type Add Edit Show Complete Exit: ")
     #user_input = user_input.strip()
 
-    if "Add" in user_input:
+    if user_input.startswith('add') or user_input.startswith('Add') :
         newitem = user_input[4:]
         with open('todos.txt', 'r') as file:
             todos = file.readlines()
             
-        todos.append(newitem)
+        todos.append(newitem.capitalize() + '\n')
 
         with open('todos.txt', 'w') as file:
             file.writelines(todos) 
         
-    elif "Show" in user_input:
+    elif user_input.startswith('show') or user_input.startswith("Show") :
 
         with open('todos.txt', 'r') as file:
             data = file.readlines()
@@ -23,40 +25,47 @@ while True:
                 items = items.strip('\n')
                 print(index, items)
 
-    elif "Edit" in user_input:
+    elif user_input.startswith('edit') or user_input.startswith('Edit'):
+        try:
+            with open('todos.txt', 'r') as file:
+                data = file.readlines()
 
-        with open('todos.txt', 'r') as file:
-            data = file.readlines()
+            number = int(user_input[5:])
+            newtodo = input(f'what would you like {data[number -1]} to be?: ')
+            data[number -1] = newtodo + '\n'
 
-        for index, item in enumerate(data):
-            item = item.strip('\n')
-            print(index + 1, item)
+            with open('todos.txt', 'w') as file:
+                file.writelines(data)
+        except ValueError:
+            print("input is incorrect")
+            continue
+        except IndexError:
+            print("item value doesnt exist")
+            continue
 
-        number = int(input("which todo would you like to edit: "))
-        new_todo = input(f"what would you like to change {data[number - 1 ]} to: ")
-        data[number - 1] = new_todo + '\n'
-        
-        with open('todos.txt', 'w') as file:
-            file.writelines(data)
-        
-    elif "Complete" in user_input:
+    elif user_input.startswith('complete') or user_input.startswith('Complete'):
+        try:
+            with open('todos.txt', 'r') as file:
+                data = file.readlines()
 
-        with open('todos.txt', 'r') as file:
-            data = file.readlines()
+            for index, item in enumerate(data):
+                item = item.strip('\n')
+                print(index + 1, item)
 
-        for index, item in enumerate(data):
-            item = item.strip('\n')
-            print(index + 1, item)
+            number = int(user_input[8:])
+            # number = number - 1
+            data.pop(number - 1)
 
-        number = int(input("Which task do you want to remove: "))
-        # number = number - 1
-        data.pop(number - 1)
-
-        with open('todos.txt', 'w') as file:
-            file.writelines(data)
-
+            with open('todos.txt', 'w') as file:
+                file.writelines(data)
+        except ValueError:
+            print("Input is incorrect")
+            continue
+        except IndexError:
+            print("item value doesnt exist")
+            continue
     
-    elif "Exit" in user_input:
+    elif user_input.startswith('exit') or user_input('Exit'):
         break
     else:
         print("command is not valid")
