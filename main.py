@@ -1,15 +1,4 @@
-#Creating Todo's function
-def get_todo(filepath):
-    with open(filepath, 'r') as file_local:
-        todos_local = file_local.readlines()
-    return todos_local
-
-def write_todo(filepath, todos_arg):
-    with open(filepath, 'w') as file_local:
-        todos_local = file_local.writelines(todos_arg)
-
-
-            
+from misc import functions
 while True:
 
 #Starting input
@@ -19,30 +8,30 @@ while True:
     if user_input.startswith('add') or user_input.startswith('Add') :
         newitem = user_input[4:]
 
-        todos = get_todo('todos.txt')
+        todos = functions.get_todo()
 
         todos.append(newitem.capitalize() + '\n')
 
-        write_todo('todos.txt',todos) 
+        functions.write_todo(todos) 
         
     elif user_input.startswith('show') or user_input.startswith("Show") :
 
-        todos = get_todo('todos.txt')
+        todos = functions.get_todo()
                         
         for index, items in enumerate(todos):
                 items = items.strip('\n')
-                print(index, items)
+                print(index + 1, items)
 
     elif user_input.startswith('edit') or user_input.startswith('Edit'):
         try:
 
-            todos = get_todo('todos.txt')
+            todos = functions.get_todo()
 
             number = int(user_input[5:])
             newtodo = input(f'what would you like {todos[number -1]} to be?: ')
             todos[number -1] = newtodo.capitalize() + '\n'
 
-            write_todo('todos.txt',todos)
+            functions.write_todo(todos)
             
         except ValueError:
             print("input is incorrect")
@@ -54,13 +43,13 @@ while True:
     elif user_input.startswith('complete') or user_input.startswith('Complete'):
         try:
 
-            todos = get_todo('todos.txt')
+            todos = functions.get_todo()
 
             number = int(user_input[8:])
             # number = number - 1
             todos.pop(number - 1)
 
-            write_todo('todos.txt',todos)
+            functions.write_todo(todos)
 
         except ValueError:
             print("Input is incorrect")
