@@ -1,4 +1,11 @@
 from misc import functions
+import time
+
+
+now = time.strftime("%B %D, %Y %H:%M:%S")
+print(now)
+
+
 while True:
 
 #Starting input
