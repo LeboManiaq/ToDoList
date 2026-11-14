@@ -13,8 +13,19 @@ interface = sg.Window("My To-Do App",
                               [inputbox,add_button,edit_button,complete_button,exit_button]],
                               font=('Helvetica', '20'))
 
-event, values  = interface.read()
-print(event)
-print(values)
-interface.close()
+while True:
+    event, values  = interface.read()
+    print(event)
+    print(values)
+    
+    match event:
+        case "Add":
+            todos = functions.get_todo()
+            new_todo = values['Todo']
+
+            todos.append(new_todo)
+            functions.write_todo(todos)
+
+        case "Exit":
+            interface.close()
 
